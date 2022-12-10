@@ -166,6 +166,6 @@ public class GUI extends JFrame {
 	public static void main(String[] args) {
 		new GUI();
 		
-		// Test path: D:\CTDL_NLU\AI_Project_GK\images\image_2.jpg
+		// Test path: D:\CTDL_NLU\Git_Share\Photo_Restoration\images\image_2.jpg
 	}
 }
