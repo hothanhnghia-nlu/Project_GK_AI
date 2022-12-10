@@ -13,7 +13,7 @@ import detection.ImageFilter;
 public class GUI extends JFrame {
 	JLabel lblInput, lblOrigin, lblRestored, lblNotif;
 	JTextField tfInput;
-	JButton btnUpload, btnStart, btnSave;
+	JButton btnUpload, btnStart, btnSave, btnDel;
 	
 	public GUI() {
 		init();
@@ -24,7 +24,7 @@ public class GUI extends JFrame {
 	// Create JFrame
 	private void init() {
 		setTitle("Restore old photos");
-		setSize(900, 600);
+		setSize(900, 680);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -57,20 +57,23 @@ public class GUI extends JFrame {
 		
 		btnStart = new JButton("Restore");
 		btnStart.setBounds(100, 50, 80, 30);
-		
 		pane.add(btnStart);
 		
 		btnSave = new JButton("Save Image");
 		btnSave.setBounds(200, 50, 100, 30);
 		pane.add(btnSave);
 		
+		btnDel = new JButton("Delete");
+		btnDel.setBounds(320, 50, 80, 30);
+		pane.add(btnDel);
+		
 		lblOrigin = new JLabel("Original photo", SwingConstants.CENTER);
-		lblOrigin.setBounds(20, 100, 400, 450);
+		lblOrigin.setBounds(20, 100, 400, 520);
 		lblOrigin.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		pane.add(lblOrigin);
 		
 		lblRestored = new JLabel("Restored photo", SwingConstants.CENTER);
-		lblRestored.setBounds(460, 100, 400, 450);
+		lblRestored.setBounds(460, 100, 400, 520);
 		lblRestored.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		pane.add(lblRestored);
 		
@@ -118,9 +121,13 @@ public class GUI extends JFrame {
 				String path = tfInput.getText();
 				File file = new File(path);
 				Detection detec = new Detection(file);
-				detec.run();
-				lblRestored.setIcon(ResizeImage(String.valueOf(detec.getDestFile())));
-				lblRestored.setText(detec.getDestFile());
+				try {
+					detec.run();
+					lblRestored.setIcon(ResizeImage(String.valueOf(detec.getDestFile())));
+					lblRestored.setText(detec.getDestFile());
+				} catch (Exception e1) {
+					lblNotif.setText("Failed to restore!");
+				}
 //				ImageFilter imgFilter = new ImageFilter(file);
 //				imgFilter.bilateralFilter();
 //				lblRestored.setIcon(ResizeImage(String.valueOf(imgFilter.getDestFile())));
@@ -150,6 +157,19 @@ public class GUI extends JFrame {
 			    } else {
 			    	JOptionPane.showMessageDialog(btnSave, "No file choosen! Please choose again!");
 			    }
+			}
+		});
+		
+		// Delete button action
+		btnDel.addActionListener(new ActionListener() {
+					
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				tfInput.setText(null);
+				lblOrigin.setIcon(null);
+				lblRestored.setIcon(null);
+				lblRestored.setText("Restored photo");
+				lblNotif.setText(null);
 			}
 		});
 	}
