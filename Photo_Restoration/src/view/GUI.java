@@ -8,7 +8,6 @@ import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import detection.*;
-import detection.ImageFilter;
 
 public class GUI extends JFrame {
 	JLabel lblInput, lblOrigin, lblRestored, lblNotif;
@@ -185,7 +184,5 @@ public class GUI extends JFrame {
 	
 	public static void main(String[] args) {
 		new GUI();
-		
-		// Test path: D:\CTDL_NLU\Git_Share\Photo_Restoration\images\image_2.jpg
 	}
 }
