@@ -8,6 +8,7 @@ import javax.imageio.*;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import detection.*;
+import detection.ImageFilter;
 
 public class GUI extends JFrame {
 	JLabel lblInput, lblOrigin, lblRestored, lblNotif;
@@ -119,18 +120,20 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String path = tfInput.getText();
 				File file = new File(path);
-				Detection detec = new Detection(file);
-				try {
-					detec.run();
-					lblRestored.setIcon(ResizeImage(String.valueOf(detec.getDestFile())));
-					lblRestored.setText(detec.getDestFile());
-				} catch (Exception e1) {
-					lblNotif.setText("Failed to restore!");
+				FaceDetection detec = new FaceDetection(file);
+				ImageFilter imgFilter = new ImageFilter(file);
+//				detec.faceDetection();
+//				lblRestored.setIcon(ResizeImage(String.valueOf(detec.getDestFile())));
+//				lblRestored.setText(detec.getDestFile());
+				if (detec.isFaceDetection() == true) {
+					try {
+						imgFilter.bilateralFilter();
+						lblRestored.setIcon(ResizeImage(String.valueOf(imgFilter.getDestFile())));
+						lblRestored.setText(imgFilter.getDestFile());
+					} catch (Exception e1) {
+						lblNotif.setText("Failed to restore!");
+					}
 				}
-//				ImageFilter imgFilter = new ImageFilter(file);
-//				imgFilter.bilateralFilter();
-//				lblRestored.setIcon(ResizeImage(String.valueOf(imgFilter.getDestFile())));
-//				lblRestored.setText(imgFilter.getDestFile());
 			}
 		});
 		

@@ -18,6 +18,7 @@ public class ImageFilter extends Util {
 		super.setDestFile(destFile);
 	}
 
+	// Implement bilateral filter to denoise and make smooth image
 	public void bilateralFilter() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		sourceFile = file.getAbsolutePath();
@@ -33,12 +34,5 @@ public class ImageFilter extends Util {
 		setDestFile("images/result.jpg");
 		Imgcodecs.imwrite(destFile, dst);
 		System.out.println("Image Processed");
-	}
-	
-	public static void main(String[] args) {
-		String path = "images/image_1.jpg";
-		File source = new File(path);
-		ImageFilter imgFilter = new ImageFilter(source);
-		imgFilter.bilateralFilter();
 	}
 }

@@ -11,9 +11,9 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import java.io.*;
 
-public class Detection extends Util {
+public class FaceDetection extends Util {
 	
-	public Detection(File file) {
+	public FaceDetection(File file) {
 		super(file);
 	}
 
@@ -22,7 +22,8 @@ public class Detection extends Util {
 		super.setDestFile(destFile);
 	}
 
-	public void run() {
+	// Implement detect face
+	public Mat faceDetection() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		sourceFile = file.getAbsolutePath();
 		Mat src = Imgcodecs.imread(sourceFile);
@@ -40,13 +41,14 @@ public class Detection extends Util {
 		}
 		setDestFile("images/result.jpg");
 		Imgcodecs.imwrite(destFile, src);
-		System.out.println("Image Detection Finished");
+		return src;
 	}
 	
-	public static void main(String[] args) {
-		String path = "images/image_3.jpg";
-		File source = new File(path);
-		Detection dt = new Detection(source);
-		dt.run();
+	// Check if has face detecion
+	public boolean isFaceDetection() {
+		if (faceDetection() != null) {
+			return true;
+		}
+		return false;
 	}
 }
